@@ -1,0 +1,22 @@
+#!/bin/bash
+# 07/06/2020 by zivile based on https://www.linuxjournal.com/content/create-dynamic-wallpaper-bash-script
+# script for dynamic wallpaper, new at every reboot
+
+# get the index from xkcd site and save it to the file in /tmp dir. This directory is cleaded at every reboot.
+/usr/bin/wget 'c.xkcd.com/random/comic/' -O /tmp/indexxkcd
+
+# get the image source and save image into the file
+/usr/bin/wget "$(grep "img src=" /tmp/indexxkcd | grep /comics/ | cut -d\" -f2 | cut -c 3-)" -O /home/zivile/Downloads/wallpaper
+
+# set the wallpaper for the gnome desktop and scale it
+gsettings set org.gnome.desktop.background picture-uri "file:///home/zivile/Downloads/wallpaper"
+gsettings set org.gnome.desktop.background picture-options scaled
+
+
+# remove the index file. An option could be trash command (install trash-cli)
+# trash indexxkcd
+
+# chmod 755 script
+# set the cron job
+# crontab -e --> @reboot sleep 30s && /path/to/executable/. NOTE this job works at reboot only with sleep delay, if not first wget line comes back empty, propably executed before connecting to network.
+
