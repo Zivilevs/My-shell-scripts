@@ -31,7 +31,7 @@ case $start_hour in
 				body
 				;;
 			1[2-7])
-				echo "Sveika $LOGNAME!" | figlet | lolcat
+					echo "Sveika $(echo $LOGNAME | sed 's/'$LOGNAME'/\u&/')!" | figlet | lolcat
 				body
 				;;
 	[1-2][890123])
